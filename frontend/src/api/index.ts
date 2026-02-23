@@ -1,4 +1,5 @@
 import api from './client';
+export { adminApi } from './admin';
 import type {
     User, Address, PaginatedResponse,
     Product, Category, Cart, Order, ShippingMethod, CouponResult, DashboardMetrics

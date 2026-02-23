@@ -1,4 +1,5 @@
 from rest_framework import viewsets, permissions, status
+from utils.permissions import IsAdminUser
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .models import Order, Cart, CartItem
@@ -74,3 +75,10 @@ class CartViewSet(viewsets.ViewSet):
         item_id = request.data.get('item_id')
         CartItem.objects.filter(id=item_id, cart=cart).delete()
         return Response(CartSerializer(cart).data)
+
+class AdminOrderViewSet(viewsets.ModelViewSet):
+    """Admin endpoint to manage all orders in the system."""
+    queryset = Order.objects.all().order_by('-created_at')
+    serializer_class = OrderSerializer
+    permission_classes = [IsAdminUser]
+

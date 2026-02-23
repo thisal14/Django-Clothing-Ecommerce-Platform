@@ -7,6 +7,8 @@ export interface User {
     phone: string;
     role: 'CUSTOMER' | 'STAFF' | 'ADMIN';
     is_verified: boolean;
+    is_staff?: boolean;
+    is_superuser?: boolean;
     avatar: string | null;
     date_joined: string;
     full_name?: string;
@@ -96,6 +98,7 @@ export interface Product {
     is_featured: boolean;
     meta_title: string;
     meta_description: string;
+    is_active: boolean;
     images: ProductImage[];
     variants: ProductVariant[];
     primary_image?: string | null;

@@ -3,7 +3,8 @@ from rest_framework.routers import DefaultRouter
 from . import views
 
 router = DefaultRouter()
-router.register(r'orders', views.OrderViewSet)
+router.register(r'orders', views.OrderViewSet, basename='orders')
+router.register(r'admin/orders', views.AdminOrderViewSet, basename='admin-orders')
 
 urlpatterns = [
     path('', include(router.urls)),

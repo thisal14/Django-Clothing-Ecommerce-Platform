@@ -3,9 +3,9 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchProfileThunk } from '@/store/authSlice';
 import { fetchCartThunk } from '@/store/cartSlice';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
-import CartDrawer from '@/components/cart/CartDrawer';
+import StoreLayout from '@/components/layout/StoreLayout';
+import AdminLayout from '@/components/admin/AdminLayout';
+import AdminProtectedRoute from '@/components/admin/AdminProtectedRoute';
 
 // ── Lazy-loaded pages ──────────────────────────────────────
 const Home = lazy(() => import('@/pages/Home'));
@@ -18,9 +18,11 @@ const OrderHistory = lazy(() => import('@/pages/OrderHistory'));
 const Profile = lazy(() => import('@/pages/Profile'));
 const Login = lazy(() => import('@/pages/auth/Login'));
 const Register = lazy(() => import('@/pages/auth/Register'));
+const AdminLogin = lazy(() => import('@/pages/admin/AdminLogin'));
 const AdminDashboard = lazy(() => import('@/pages/admin/Dashboard'));
 const AdminProducts = lazy(() => import('@/pages/admin/Products'));
 const AdminOrders = lazy(() => import('@/pages/admin/Orders'));
+const AdminProductForm = lazy(() => import('@/pages/admin/ProductForm'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
 
 // ── Page Loading Fallback ──────────────────────────────────
@@ -55,11 +57,10 @@ export default function App() {
 
     return (
         <BrowserRouter>
-            <Navbar />
-            <CartDrawer />
-            <main>
-                <Suspense fallback={<PageLoader />}>
-                    <Routes>
+            <Suspense fallback={<PageLoader />}>
+                <Routes>
+                    {/* Store Routes */}
+                    <Route element={<StoreLayout />}>
                         <Route path="/" element={<Home />} />
                         <Route path="/products" element={<ProductListing />} />
                         <Route path="/products/:slug" element={<ProductDetail />} />
@@ -70,15 +71,23 @@ export default function App() {
                         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
-                        {/* Admin Routes */}
-                        <Route path="/admin" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
-                        <Route path="/admin/products" element={<ProtectedRoute adminOnly><AdminProducts /></ProtectedRoute>} />
-                        <Route path="/admin/orders" element={<ProtectedRoute adminOnly><AdminOrders /></ProtectedRoute>} />
                         <Route path="*" element={<NotFound />} />
-                    </Routes>
-                </Suspense>
-            </main>
-            <Footer />
+                    </Route>
+
+                    {/* Admin Routes */}
+                    <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+                    <Route path="/admin/login" element={<AdminLogin />} />
+                    <Route element={<AdminProtectedRoute />}>
+                        <Route element={<AdminLayout />}>
+                            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                            <Route path="/admin/products" element={<AdminProducts />} />
+                            <Route path="/admin/products/new" element={<AdminProductForm />} />
+                            <Route path="/admin/products/:slug/edit" element={<AdminProductForm />} />
+                            <Route path="/admin/orders" element={<AdminOrders />} />
+                        </Route>
+                    </Route>
+                </Routes>
+            </Suspense>
         </BrowserRouter>
     );
 }
