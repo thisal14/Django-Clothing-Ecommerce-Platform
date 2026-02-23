@@ -113,7 +113,7 @@ class OrderItem(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
     variant = models.ForeignKey(
-        'catalog.ProductVariant', on_delete=models.SET_NULL, null=True
+        'catalog.ProductVariant', on_delete=models.SET_NULL, null=True, related_name='order_items'
     )
     # Frozen snapshot of product data at time of purchase
     product_snapshot = models.JSONField()

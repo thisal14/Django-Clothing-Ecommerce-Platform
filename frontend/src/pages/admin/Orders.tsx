@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { adminApi } from '@/api';
 import type { Order } from '@/types';
 import { Eye } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function AdminOrders() {
+    const navigate = useNavigate();
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -113,6 +115,7 @@ export default function AdminOrders() {
                                         </td>
                                         <td style={{ padding: '16px 24px', textAlign: 'right' }}>
                                             <button
+                                                onClick={() => navigate(`/admin/orders/${order.id}`)}
                                                 style={{ color: 'var(--color-primary)', transition: 'all var(--transition-fast)', padding: 8, borderRadius: 'var(--radius-sm)' }}
                                                 onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'var(--color-surface-2)'; e.currentTarget.style.color = 'var(--color-primary-dark)' }}
                                                 onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = 'var(--color-primary)' }}

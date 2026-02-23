@@ -1,5 +1,5 @@
 import api from './client';
-import type { Product, Order, PaginatedResponse } from '@/types';
+import type { Product, Order, User, PaginatedResponse } from '@/types';
 
 export const adminApi = {
     // Products
@@ -27,4 +27,11 @@ export const adminApi = {
 
     updateOrderStatus: (id: string, status: string) =>
         api.patch<Order>(`/orders/admin/orders/${id}/`, { status }),
+
+    // Users
+    getUsers: (params?: Record<string, string | number>) =>
+        api.get<PaginatedResponse<User>>('/auth/admin/users/', { params }),
+
+    updateUser: (id: string, data: Partial<User>) =>
+        api.patch<User>(`/auth/admin/users/${id}/`, data),
 };

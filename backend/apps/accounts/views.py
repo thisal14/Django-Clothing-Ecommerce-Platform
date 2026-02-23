@@ -134,3 +134,16 @@ class AddressDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Address.objects.filter(user=self.request.user)
+
+
+class AdminUserListView(generics.ListAPIView):
+    serializer_class = UserProfileSerializer
+    permission_classes = [permissions.IsAdminUser]
+    queryset = User.objects.all().order_by('-date_joined')
+
+
+class AdminUserDetailView(generics.RetrieveUpdateAPIView):
+    serializer_class = UserProfileSerializer
+    permission_classes = [permissions.IsAdminUser]
+    queryset = User.objects.all()
+

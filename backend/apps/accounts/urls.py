@@ -11,4 +11,7 @@ urlpatterns = [
     path('password/change/', views.ChangePasswordView.as_view(), name='auth-change-password'),
     path('addresses/', views.AddressListCreateView.as_view(), name='address-list'),
     path('addresses/<uuid:pk>/', views.AddressDetailView.as_view(), name='address-detail'),
+    # Admin
+    path('admin/users/', views.AdminUserListView.as_view(), name='admin-user-list'),
+    path('admin/users/<int:pk>/', views.AdminUserDetailView.as_view(), name='admin-user-detail'),
 ]

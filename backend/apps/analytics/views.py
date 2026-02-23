@@ -8,11 +8,11 @@ from rest_framework.response import Response
 from apps.orders.models import Order
 from apps.catalog.models import Product
 from apps.accounts.models import CustomUser
-from utils.permissions import IsAdminUser
+from utils.permissions import IsStaffOrAdmin
 
 
 @api_view(['GET'])
-@permission_classes([IsAdminUser])
+@permission_classes([IsStaffOrAdmin])
 def dashboard_metrics(request):
     """Admin dashboard summary."""
     now = timezone.now()
@@ -32,7 +32,7 @@ def dashboard_metrics(request):
     processing_orders = Order.objects.filter(status='PROCESSING').count()
 
     new_customers = CustomUser.objects.filter(
-        created_at__gte=thirty_days_ago, role='CUSTOMER'
+        date_joined__gte=thirty_days_ago, role='CUSTOMER'
     ).count()
 
     # Sales over last 7 days
@@ -50,19 +50,25 @@ def dashboard_metrics(request):
     # Top products by order count
     top_products = (
         Product.objects.filter(is_active=True)
-        .annotate(order_count=Count('variants__orderitem'))
+        .annotate(order_count=Count('variants__order_items'))
         .order_by('-order_count')[:5]
         .values('name', 'slug', 'order_count')
     )
 
     return Response({
-        'total_revenue': total_revenue,
-        'monthly_revenue': monthly_revenue,
+        'total_revenue': float(total_revenue),
+        'monthly_revenue': float(monthly_revenue),
         'pending_orders': pending_orders,
         'processing_orders': processing_orders,
         'total_products': Product.objects.filter(is_active=True).count(),
         'total_customers': CustomUser.objects.filter(role='CUSTOMER').count(),
         'new_customers_30d': new_customers,
-        'daily_sales': list(daily_sales),
+        'daily_sales': [
+            {
+                'date': str(day['date']),
+                'revenue': float(day['revenue']),
+                'orders': day['orders']
+            } for day in daily_sales
+        ],
         'top_products': list(top_products),
     })
