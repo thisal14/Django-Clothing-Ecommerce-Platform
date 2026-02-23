@@ -1,0 +1,15 @@
+django>=4.2,<5.0
+django-environ
+djangorestframework
+djangorestframework-simplejwt
+django-cors-headers
+django-filter
+drf-spectacular
+django-auditlog
+django-redis
+mysqlclient
+argon2-cffi
+celery
+redis
+Pillow
+django-ratelimit
