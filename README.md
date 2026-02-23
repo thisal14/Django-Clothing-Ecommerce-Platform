@@ -45,10 +45,11 @@ A modern **React Component-Based Architecture**.
 
 ### Admin Portal (`/admin`)
 - 🔒 **Dedicated Admin Login** — Isolated portal at `/admin/login` with role-based access control (ADMIN / STAFF roles only).
-- 📊 **Dashboard** — Overview metrics (Revenue, Orders, Products, Customers).
-- 📦 **Product Management** — Full CRUD: list, create, edit, and delete products.
-- 🧾 **Order Management** — View all orders and update their fulfilment status inline.
-- 🖼️ **Platform-Themed UI** — Admin interface uses the same design system and CSS variables as the customer store for visual consistency.
+- 📊 **Live Dashboard** — Real-time overview metrics (Revenue, processing orders, customer growth) powered by a dedicated analytics engine.
+- 📦 **Product Management** — Full CRUD operations for the product catalog including image handling.
+- 🧾 **Order Fulfillment** — View high-level order lists and drill down into **Detailed Order Views** to see individual items, shipping addresses, and customer contact info. Update statuses from Pending to Delivered/Cancelled.
+- 👥 **User Management** — View all registered users and promote/demote accounts between `CUSTOMER`, `STAFF`, and `ADMIN` roles.
+- 🖼️ **Platform-Themed UI** — Admin interface uses the premium "In Sri Lanka" design system (Saffron/Green/Dark) for 100% visual consistency.
 
 ### Security
 - CSRF protection on all mutating endpoints.
@@ -86,7 +87,7 @@ Ecommerce-App/
     │   │   ├── admin/              # AdminLayout, AdminProtectedRoute
     │   │   └── layout/             # StoreLayout, Navbar, Footer
     │   ├── pages/
-    │   │   ├── admin/              # Dashboard, Products, Orders, AdminLogin
+    │   │   ├── admin/              # Dashboard, Products, Orders, OrderDetail, Users, AdminLogin
     │   │   ├── auth/               # Login, Register
     │   │   └── ...                 # Home, ProductListing, Cart, Checkout, etc.
     │   ├── store/                  # Redux Toolkit slices (auth, cart)
@@ -159,7 +160,8 @@ npm run dev
 | `http://localhost:5173/admin/login` | Admin sign-in page |
 | `http://localhost:5173/admin/dashboard` | Main admin dashboard |
 | `http://localhost:5173/admin/products` | Product management |
-| `http://localhost:5173/admin/orders` | Order management |
+| `http://localhost:5173/admin/orders` | Order management & status updates |
+| `http://localhost:5173/admin/users` | User role management & staff controls |
 
 To access the admin portal, your user account must have `is_staff=True` or the role `ADMIN`/`STAFF` in the database. You can promote any user via the Django shell:
 
@@ -177,7 +179,17 @@ print('Done')
 
 ---
 
-## 📚 API Documentation
+## � Development Credentials
+
+For testing purposes in development, you can use the following default account:
+
+- **Role**: Administrator
+- **Email**: `admin@srilanka.com`
+- **Password**: `admin123`
+
+---
+
+## �📚 API Documentation
 
 With the backend running, interactive Swagger/OpenAPI docs are available at:
 
