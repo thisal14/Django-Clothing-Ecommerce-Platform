@@ -7,8 +7,11 @@ import { fileURLToPath } from 'url';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
     plugins: [react(), tailwindcss()],
+    ssr: {
+        noExternal: command === 'build' ? true : ['react-helmet-async']
+    },
     resolve: {
         alias: {
             '@': resolve(__dirname, './src'),
@@ -27,4 +30,4 @@ export default defineConfig({
             },
         },
     },
-});
+}));

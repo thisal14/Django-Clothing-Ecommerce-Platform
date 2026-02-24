@@ -8,20 +8,28 @@ import { addToCartThunk, openDrawer } from '@/store/cartSlice';
 import type { AppDispatch } from '@/store';
 import toast from 'react-hot-toast';
 
+import { useAppSelector } from '@/store/hooks';
+import { clearSSRData } from '@/store/ssrSlice';
+
 const LKR = (n: number) =>
     new Intl.NumberFormat('si-LK', { style: 'currency', currency: 'LKR', maximumFractionDigits: 0 }).format(n);
 
 export default function ProductDetail() {
     const { slug } = useParams<{ slug: string }>();
+    const ssrData = useAppSelector((state) => state.ssr.data[`productDetail-${slug}`]);
     const dispatch = useDispatch<AppDispatch>();
 
-    const [product, setProduct] = useState<Product | null>(null);
-    const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null);
+    const [product, setProduct] = useState<Product | null>(ssrData || null);
+    const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(ssrData?.variants?.[0] || null);
     const [quantity, setQuantity] = useState(1);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(!ssrData);
 
     useEffect(() => {
         if (!slug) return;
+        if (ssrData) {
+            dispatch(clearSSRData(`productDetail-${slug}`));
+            return;
+        }
         async function fetchProduct(productSlug: string) {
             setLoading(true);
             try {

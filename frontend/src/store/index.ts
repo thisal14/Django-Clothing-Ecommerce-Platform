@@ -1,23 +1,25 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import authReducer from './authSlice';
-import type { AuthState } from './authSlice';
 import cartReducer from './cartSlice';
-import type { CartState } from './cartSlice';
 import uiReducer from './uiSlice';
-import type { UIState } from './uiSlice';
+import ssrReducer from './ssrSlice';
 
-export const store = configureStore({
-    reducer: {
-        auth: authReducer,
-        cart: cartReducer,
-        ui: uiReducer,
-    },
+const rootReducer = combineReducers({
+    auth: authReducer,
+    cart: cartReducer,
+    ui: uiReducer,
+    ssr: ssrReducer,
 });
 
-export interface RootState {
-    auth: AuthState;
-    cart: CartState;
-    ui: UIState;
+export type RootState = ReturnType<typeof rootReducer>;
+
+export function createReduxStore(preloadedState?: Partial<RootState>) {
+    return configureStore({
+        reducer: rootReducer,
+        preloadedState,
+    });
 }
 
-export type AppDispatch = typeof store.dispatch;
+const dummyStore = createReduxStore();
+
+export type AppDispatch = typeof dummyStore.dispatch;

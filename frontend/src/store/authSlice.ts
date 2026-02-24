@@ -11,7 +11,7 @@ export interface AuthState {
 
 const initialState: AuthState = {
     user: null,
-    isAuthenticated: localStorage.getItem('isAuth') === 'true',
+    isAuthenticated: typeof window !== 'undefined' ? localStorage.getItem('isAuth') === 'true' : false,
     isLoading: false,
     error: null,
 };
@@ -21,7 +21,7 @@ export const loginThunk = createAsyncThunk(
     async ({ email, password }: { email: string; password: string }, { rejectWithValue }) => {
         try {
             const { data } = await authApi.login(email, password);
-            localStorage.setItem('isAuth', 'true');
+            if (typeof window !== 'undefined') localStorage.setItem('isAuth', 'true');
             return data.user;
         } catch (err: unknown) {
             const error = err as { response?: { data?: Record<string, string> } };
@@ -39,7 +39,7 @@ export const registerThunk = createAsyncThunk(
                 password2: data.confirm_password || data.password2
             };
             const { data: resData } = await authApi.register(payload);
-            localStorage.setItem('isAuth', 'true');
+            if (typeof window !== 'undefined') localStorage.setItem('isAuth', 'true');
             return resData.user;
         } catch (err: unknown) {
             const error = err as { response?: { data?: Record<string, string> } };
@@ -55,7 +55,7 @@ export const fetchProfileThunk = createAsyncThunk(
             const { data } = await authApi.getProfile();
             return data;
         } catch {
-            localStorage.removeItem('isAuth');
+            if (typeof window !== 'undefined') localStorage.removeItem('isAuth');
             return rejectWithValue('Failed to fetch profile');
         }
     }
@@ -63,7 +63,7 @@ export const fetchProfileThunk = createAsyncThunk(
 
 export const logoutThunk = createAsyncThunk('auth/logout', async () => {
     try { await authApi.logout(); } catch { /* ignore */ }
-    localStorage.removeItem('isAuth');
+    if (typeof window !== 'undefined') localStorage.removeItem('isAuth');
 });
 
 const authSlice = createSlice({

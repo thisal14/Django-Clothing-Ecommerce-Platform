@@ -4,13 +4,20 @@ import { catalogApi } from '@/api';
 import type { Product, PaginatedResponse } from '@/types';
 import ProductCard from '@/components/product/ProductCard';
 import { useSearchParams } from 'react-router-dom';
+import { useAppSelector, useAppDispatch } from '@/store/hooks';
+import { clearSSRData } from '@/store/ssrSlice';
 
 export default function ProductListing() {
     const [searchParams, setSearchParams] = useSearchParams();
-    const [products, setProducts] = useState<Product[]>([]);
-    const [meta, setMeta] = useState<{ count: number; next: string | null; previous: string | null } | null>(null);
+    const ssrData = useAppSelector(state => state.ssr.data['productListing']);
+    const dispatch = useAppDispatch();
+
+    const [products, setProducts] = useState<Product[]>(ssrData?.results || []);
+    const [meta, setMeta] = useState<{ count: number; next: string | null; previous: string | null } | null>(
+        ssrData ? { count: ssrData.count, next: ssrData.next, previous: ssrData.previous } : null
+    );
     const [page, setPage] = useState(1);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(!ssrData);
     const [loadingMore, setLoadingMore] = useState(false);
     const [search, setSearch] = useState(searchParams.get('search') ?? '');
 
@@ -52,6 +59,10 @@ export default function ProductListing() {
 
     // Reset to page 1 whenever filters / search change
     useEffect(() => {
+        if (ssrData) {
+            dispatch(clearSSRData('productListing'));
+            return;
+        }
         setProducts([]);
         setPage(1);
         fetchPage(1, true);

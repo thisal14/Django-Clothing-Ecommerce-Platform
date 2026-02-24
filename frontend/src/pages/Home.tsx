@@ -4,14 +4,23 @@ import { catalogApi } from '@/api';
 import type { Product } from '@/types';
 import { Link } from 'react-router-dom';
 import ProductCard from '@/components/product/ProductCard';
+import { useAppSelector, useAppDispatch } from '@/store/hooks';
+import { clearSSRData } from '@/store/ssrSlice';
 
 export default function Home() {
-    const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
-    const [newArrivals, setNewArrivals] = useState<Product[]>([]);
-    const [loading, setLoading] = useState(true);
+    const ssrData = useAppSelector((state) => state.ssr.data['home']);
+    const dispatch = useAppDispatch();
+
+    const [featuredProducts, setFeaturedProducts] = useState<Product[]>(ssrData?.featured || []);
+    const [newArrivals, setNewArrivals] = useState<Product[]>(ssrData?.newArrivals || []);
+    const [loading, setLoading] = useState(!ssrData);
     const [hoveredCat, setHoveredCat] = useState<string | null>(null);
 
     useEffect(() => {
+        if (ssrData) {
+            dispatch(clearSSRData('home'));
+            return;
+        }
         async function fetchData() {
             setLoading(true);
             try {

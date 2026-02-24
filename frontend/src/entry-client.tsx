@@ -1,17 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from 'react-hot-toast';
-import { store } from './store';
-import App from './App.tsx';
+import { createReduxStore } from './store';
+import App from './App';
 import './styles/index.css';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+declare global {
+    interface Window {
+        __PRELOADED_STATE__?: any;
+    }
+}
+
+const preloadedState = window.__PRELOADED_STATE__;
+delete window.__PRELOADED_STATE__;
+
+const store = createReduxStore(preloadedState);
+
+ReactDOM.hydrateRoot(
+    document.getElementById('root')!,
     <React.StrictMode>
         <Provider store={store}>
             <HelmetProvider>
-                <App />
+                <BrowserRouter>
+                    <App />
+                </BrowserRouter>
                 <Toaster
                     position="top-right"
                     toastOptions={{

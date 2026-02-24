@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchProfileThunk } from '@/store/authSlice';
 import { fetchCartThunk } from '@/store/cartSlice';
@@ -58,7 +58,7 @@ export default function App() {
     }, [dispatch, isAuthenticated]);
 
     return (
-        <BrowserRouter>
+        <>
             <Suspense fallback={<PageLoader />}>
                 <Routes>
                     {/* Store Routes */}
@@ -92,6 +92,6 @@ export default function App() {
                     </Route>
                 </Routes>
             </Suspense>
-        </BrowserRouter>
+        </>
     );
 }
