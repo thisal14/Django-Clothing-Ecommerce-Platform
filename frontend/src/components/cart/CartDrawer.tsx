@@ -38,6 +38,7 @@ export default function CartDrawer() {
                                     src={item.variant.attributes[0]?.value ? `/media/products/${item.product_slug}.jpg` : 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=100&q=70'}
                                     alt={item.product_name}
                                     className="cart-item__image"
+                                    loading="lazy"
                                 />
                                 <div className="cart-item__details">
                                     <Link to={`/products/${item.product_slug}`} className="cart-item__name" onClick={() => dispatch(closeDrawer())}>

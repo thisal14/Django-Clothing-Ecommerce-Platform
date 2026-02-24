@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { catalogApi } from '@/api';
@@ -72,6 +72,7 @@ export default function ProductDetail() {
                             <img
                                 src={product.primary_image ?? 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=70'}
                                 alt={product.name}
+                                loading="eager"
                                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                             />
                         </div>

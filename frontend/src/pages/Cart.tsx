@@ -9,7 +9,7 @@ const LKR = (n: number) =>
 
 export default function Cart() {
     const dispatch = useDispatch<AppDispatch>();
-    const { cart, isLoading } = useSelector((s: RootState) => s.cart);
+    const { cart } = useSelector((s: RootState) => s.cart);
 
     return (
         <>
@@ -35,6 +35,7 @@ export default function Cart() {
                                     <img
                                         src={item.variant.attributes[0]?.value ? `/media/products/${item.product_slug}.jpg` : 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=200&q=70'}
                                         alt={item.product_name}
+                                        loading="lazy"
                                         style={{ width: 140, height: 180, objectFit: 'cover', borderRadius: 'var(--radius-sm)' }}
                                     />
                                     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>

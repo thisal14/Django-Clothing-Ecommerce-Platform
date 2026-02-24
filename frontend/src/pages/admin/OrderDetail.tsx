@@ -128,7 +128,7 @@ export default function AdminOrderDetail() {
                                 <div key={item.id} style={{ display: 'flex', gap: 24, padding: '24px 32px', borderBottom: '1px solid var(--color-border)' }}>
                                     <div style={{ width: 80, height: 100, backgroundColor: 'var(--color-surface-2)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
                                         {item.product_snapshot.image && (
-                                            <img src={item.product_snapshot.image} alt={item.product_snapshot.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                            <img src={item.product_snapshot.image} alt={item.product_snapshot.name} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                         )}
                                     </div>
                                     <div style={{ flex: 1 }}>

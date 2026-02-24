@@ -46,7 +46,7 @@ export default function Home() {
             {/* Hero Section */}
             <section className="hero">
                 <div className="hero__bg">
-                    <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1600&q=80" alt="Hero" />
+                    <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1600&q=80" alt="Hero" loading="eager" />
                 </div>
                 <div className="hero__overlay" />
                 <div className="container">
@@ -99,6 +99,7 @@ export default function Home() {
                                 <img
                                     src={cat.img}
                                     alt={cat.label}
+                                    loading="lazy"
                                     style={{
                                         position: 'absolute',
                                         inset: 0,

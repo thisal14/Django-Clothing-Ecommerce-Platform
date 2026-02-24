@@ -79,7 +79,7 @@ export default function AdminProducts() {
                                 <tr key={product.id} style={{ borderBottom: '1px solid var(--color-border)', transition: 'background-color var(--transition-fast)' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--color-surface-2)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
                                     <td style={{ padding: '16px 24px', display: 'flex', alignItems: 'center', gap: 12, fontWeight: 500, color: 'var(--color-text)' }}>
                                         {product.primary_image ? (
-                                            <img src={product.primary_image} alt={product.name} style={{ width: 40, height: 40, borderRadius: 'var(--radius-sm)', objectFit: 'cover' }} />
+                                            <img src={product.primary_image} alt={product.name} loading="lazy" style={{ width: 40, height: 40, borderRadius: 'var(--radius-sm)', objectFit: 'cover' }} />
                                         ) : (
                                             <div style={{ width: 40, height: 40, borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--color-surface-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-text-light)' }}>
                                                 <Package size={20} />

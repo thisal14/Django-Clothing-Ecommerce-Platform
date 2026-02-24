@@ -173,7 +173,7 @@ export default function Checkout() {
                                 {cart.items.map(item => (
                                     <div key={item.id} style={{ display: 'flex', gap: 12 }}>
                                         <div style={{ width: 48, height: 60, borderRadius: 4, background: 'var(--color-surface-2)', overflow: 'hidden', flexShrink: 0 }}>
-                                            <img src={`/media/products/${item.product_slug}.jpg`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                            <img src={`/media/products/${item.product_slug}.jpg`} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                         </div>
                                         <div style={{ flex: 1, fontSize: '0.85rem' }}>
                                             <div style={{ fontWeight: 600, color: 'var(--color-text)' }}>{item.product_name}</div>
