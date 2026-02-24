@@ -104,7 +104,7 @@ Ecommerce-App/
 ### Prerequisites
 - Python 3.11+
 - Node.js 18+
-- PostgreSQL (or SQLite for quick local dev)
+- MySQL 8.0+
 
 ### 1. Backend Setup
 
@@ -207,4 +207,4 @@ With the backend running, interactive Swagger/OpenAPI docs are available at:
 | State Management | Redux Toolkit |
 | Styling | Custom CSS vars + Tailwind CSS v4 |
 | API Client | Axios |
-| Database | PostgreSQL (SQLite for dev) |
+| Database | MySQL |
