@@ -24,7 +24,7 @@ A modern **React Component-Based Architecture**.
 
 | Aspect | Detail |
 |---|---|
-| **Framework** | React 18 + Vite |
+| **Framework** | React 18 + Vite (with **Server-Side Rendering / SSR**) |
 | **Language** | TypeScript |
 | **State Management** | Redux Toolkit (auth, cart slices) |
 | **Routing** | React Router DOM v6 |
@@ -145,11 +145,23 @@ cd frontend
 # 2. Install dependencies
 npm install
 
-# 3. Start the Vite dev server
+# 3. Start the SSR dev server (Express + Vite Middleware)
 npm run dev
 ```
 
-> UI available at: `http://localhost:5173`
+> UI available at: `http://localhost:4000` *(Default SSR Port)*
+
+### 3. Production Deployment (Frontend)
+
+To build and serve the application utilizing the NodeJS Server-Side express process:
+```bash
+# Build the client and server assets
+npm run build 
+
+# Start the Node.js production server
+npm run serve
+```
+> Server-side compiled assets will natively run on `http://localhost:4000`
 
 ---
 
@@ -203,7 +215,7 @@ With the backend running, interactive Swagger/OpenAPI docs are available at:
 |---|---|
 | Backend Framework | Django 5 + DRF |
 | Auth | JWT (simplejwt) in HTTP-Only Cookies |
-| Frontend Framework | React 18 + TypeScript + Vite |
+| Frontend Framework | React 18 + TypeScript + Vite (SSR-enabled via Express.js) |
 | State Management | Redux Toolkit |
 | Styling | Custom CSS vars + Tailwind CSS v4 |
 | API Client | Axios |
